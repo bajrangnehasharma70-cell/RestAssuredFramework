@@ -29,6 +29,8 @@ public class BookingUnitTest {
 		
 		bookingData.setBookingdates(bookingDate);
 		
+		
+		
 		bookingId = Bookings.createBooking(bookingData);
 		System.out.println(bookingId);
 		

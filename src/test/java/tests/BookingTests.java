@@ -1,12 +1,18 @@
 package tests;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import io.restassured.response.Response;
 import models.Booking_Data;
 import models.Booking_Dates;
 import restfulBooker.Bookings;
+import utils.ResponseValidationUtils;
 
 public class BookingTests {
 	
@@ -28,9 +34,10 @@ public class BookingTests {
 		bookingData.setLastName("Brown");
 		bookingData.setDepositpaid(true);
 		bookingData.setTotalprice(123);
-		bookingData.setAdditionalneeds("Lunch");
+		
 		
 		bookingData.setBookingdates(bookingDate);
+		bookingData.setAdditionalneeds("Lunch");
 		
 		int bookingId = Bookings.createBooking(bookingData);
 		System.out.println(bookingId);
@@ -51,8 +58,28 @@ public class BookingTests {
 	
 	
 	    requestBody.put("bookingdates", bookingDates);
-	    int bookingId = Bookings.createBooking(requestBody);
+	    Response createBooking = Bookings.createBooking(requestBody);
+		int actualStatusCode = ResponseValidationUtils.getStatusCode(createBooking);
+		Assert.assertEquals(actualStatusCode, 200, "Status code is not matched.");
+		
+		long actualResponseTime = ResponseValidationUtils.getResponseTime(createBooking);
+		System.out.println("Actual response time " + actualResponseTime);
+		Assert.assertTrue(actualResponseTime < 1000, "Response time is greater than 1000 ms");
+		
+		ResponseValidationUtils.isResponseTimeLessThan(createBooking, 1000);
+		
+		String bookingId = String.valueOf(ResponseValidationUtils.getValueFromResponseUsingJsonPath(createBooking, "bookingid"));
 		System.out.println(bookingId);
+		Assert.assertTrue(bookingId != null, "Booking id is null");
+		
+		List<String> jsonPaths = new ArrayList();
+		jsonPaths.add("bookingid");
+		jsonPaths.add("booking.firstname");
+		
+		Map<String, Object> valuesFromResponse = 
+				ResponseValidationUtils.getValueFromResponseUsingJsonPath(createBooking, jsonPaths);
+		
+		System.out.println(valuesFromResponse);
 	}
 	
 	

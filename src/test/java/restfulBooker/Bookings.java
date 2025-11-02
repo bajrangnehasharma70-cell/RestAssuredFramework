@@ -48,10 +48,11 @@ public class Bookings {
 		return createBookingResponse.jsonPath().getInt("bookingid");		
 	}
 	
-	public static int createBooking(Map<String, Object> createBookingRequest) { 
+	public static Response createBooking(Map<String, Object> createBookingRequest) { 
 		Response createBookingResponse = RestCallUtils
-				.perfromPOSTCall(baseUrls.getProperty("restFullBooker"), basePaths.getProperty("createBooking"), createBookingRequest);
-		return createBookingResponse.jsonPath().getInt("bookingid");
+				.perfromPOSTCall(baseUrls.getProperty("restFullBooker"), basePaths.getProperty("createBooking"), createBookingRequest);					
+		//return createBookingResponse.jsonPath().getInt("bookingid");
+		return createBookingResponse;
 
 	}
 	
