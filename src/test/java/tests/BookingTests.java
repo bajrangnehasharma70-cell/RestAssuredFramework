@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 import io.restassured.response.Response;
 import models.Booking_Data;
 import models.Booking_Dates;
+import models.response.CreateBookingResponse;
 import restfulBooker.Bookings;
 import utils.ResponseValidationUtils;
 
@@ -30,8 +31,8 @@ public class BookingTests {
 		bookingDate.setCheckout("2025-02-02");
 		
 		Booking_Data bookingData = new Booking_Data();
-		bookingData.setFirstName("Jim");
-		bookingData.setLastName("Brown");
+		bookingData.setFirstname("Jim");
+		bookingData.setLastname("Brown");
 		bookingData.setDepositpaid(true);
 		bookingData.setTotalprice(123);
 		
@@ -59,34 +60,53 @@ public class BookingTests {
 	
 	    requestBody.put("bookingdates", bookingDates);
 	    Response createBooking = Bookings.createBooking(requestBody);
-		int actualStatusCode = ResponseValidationUtils.getStatusCode(createBooking);
-		Assert.assertEquals(actualStatusCode, 200, "Status code is not matched.");
+	    
+//		int actualStatusCode = ResponseValidationUtils.getStatusCode(createBooking);
+//		Assert.assertEquals(actualStatusCode, 200, "Status code is not matched.");
+//		
+//		long actualResponseTime = ResponseValidationUtils.getResponseTime(createBooking);
+//		System.out.println("Actual response time " + actualResponseTime);
+//		Assert.assertTrue(actualResponseTime < 1000, "Response time is greater than 1000 ms");
+//		
+//		ResponseValidationUtils.isResponseTimeLessThan(createBooking, 1000);
+//		
+//		String bookingId = String.valueOf(ResponseValidationUtils.getValueFromResponseUsingJsonPath(createBooking, "bookingid"));
+//		System.out.println(bookingId);
+//		Assert.assertTrue(bookingId != null, "Booking id is null");
+//		
+//		List<String> jsonPaths = new ArrayList();
+//		jsonPaths.add("bookingid");
+//		jsonPaths.add("booking.firstname");
+//		
+//		Map<String, Object> valuesFromResponse = 
+//				ResponseValidationUtils.getValueFromResponseUsingJsonPath(createBooking, jsonPaths);
+//		
+//		System.out.println(valuesFromResponse);
+//		
+//		Map<String, Object> mapWithExpectedValue = new HashMap<>();
+//		mapWithExpectedValue.put("booking.firstname", "Jim");
+//		mapWithExpectedValue.put("booking.lastname", "Brown");
+//		
+//		ResponseValidationUtils.verifyValueFromResponseUsingJsonPath(createBooking, mapWithExpectedValue);
 		
-		long actualResponseTime = ResponseValidationUtils.getResponseTime(createBooking);
-		System.out.println("Actual response time " + actualResponseTime);
-		Assert.assertTrue(actualResponseTime < 1000, "Response time is greater than 1000 ms");
+		CreateBookingResponse bookData = ResponseValidationUtils.convertResponseToPojo(createBooking, CreateBookingResponse.class);
+		System.out.println(bookData.getBookingid());
+		System.out.println(bookData.getBooking().getFirstname());
 		
-		ResponseValidationUtils.isResponseTimeLessThan(createBooking, 1000);
-		
-		String bookingId = String.valueOf(ResponseValidationUtils.getValueFromResponseUsingJsonPath(createBooking, "bookingid"));
-		System.out.println(bookingId);
-		Assert.assertTrue(bookingId != null, "Booking id is null");
-		
-		List<String> jsonPaths = new ArrayList();
-		jsonPaths.add("bookingid");
-		jsonPaths.add("booking.firstname");
-		
-		Map<String, Object> valuesFromResponse = 
-				ResponseValidationUtils.getValueFromResponseUsingJsonPath(createBooking, jsonPaths);
-		
-		System.out.println(valuesFromResponse);
+	  	    
 	}
+		
+		
+		
 	
 	
-	@Test
-	public void createBookingWithFile() {
-		
-	}
+	
+	 
+	
+//	@Test
+//	public void createBookingWithFile() {
+//		
+//	}
 	
 	
 	

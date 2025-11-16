@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.hamcrest.Matchers;
+import org.testng.Assert;
 
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
 
 public class ResponseValidationUtils {
@@ -39,8 +39,46 @@ public class ResponseValidationUtils {
 		return valueMap;
 	}
 	
+	/*
+	 * I will pass a Map with jsonpath as key and its expected value as value. 
+	 * firstname == amod
+	 * bookingdates.checkin = 2025-01-01 
+	 */
 	public static void verifyValueFromResponseUsingJsonPath(Response response, Map<String, Object> jsonPathsWithExpectedValue) {
 		
+		jsonPathsWithExpectedValue.keySet().forEach(jp -> {
+			Object actualValueFromResponse = response.jsonPath().get(jp); // rahul
+			Object expectedValue = jsonPathsWithExpectedValue.get(jp); // amod
+			Assert.assertEquals(actualValueFromResponse, expectedValue);
+		});	
+	}
+	
+	// convert response to pojo class
+	// 
+
+	public static <T> T convertResponseToPojo(Response response, Class<T> pojoClassToBeConverted)
+	
+	{
+		return response.as(pojoClassToBeConverted);
+			
 	}
 
+	
+//	
+//	static void add(int n1, int n2) {
+//		int a = n1;
+//		int b = n2;
+//		int c = a+b;
+//		System.out.println(c);
+//	}
+//		
+//	
+//	
+//	public static void main(String[] args) {
+//		add(10,20);
+//		add(100,300);
+//		add(45,56);
+//		
+//	}
+	
 }

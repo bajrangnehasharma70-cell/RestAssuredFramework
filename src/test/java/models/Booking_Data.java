@@ -2,25 +2,14 @@ package models;
 
 public class Booking_Data {
 	
-	private String firstName;
-	private String lastName;
+	private String firstname;
+	private String lastname;
 	private Integer totalprice;
 	private Boolean depositpaid;
 	private String additionalneeds;
 	private Booking_Dates bookingdates;
 	
-	public String getFirstName() {
-		return firstName;
-	}
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-	public String getLastName() {
-		return lastName;
-	}
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+
 	public Integer getTotalprice() {
 		return totalprice;
 	}
@@ -44,6 +33,18 @@ public class Booking_Data {
 	}
 	public void setBookingdates(Booking_Dates bookingdates) {
 		this.bookingdates = bookingdates;
+	}
+	public String getFirstname() {
+		return firstname;
+	}
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+	public String getLastname() {
+		return lastname;
+	}
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
 	}
 
 }
